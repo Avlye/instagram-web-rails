@@ -1,0 +1,21 @@
+<main class="posts-page container">
+  <section class="posts">
+    <% if @posts.any? %>
+      <%= render @posts %>
+    <% else %>
+      No post published.
+    <% end %>
+  </section>
+
+  <aside>
+    sidebar
+
+    <section class="suggestions">
+      <h4>Suggestions for you</h4>
+    </section>
+  </aside>
+
+  <footer>
+    © <%= Date.current.year %> Instagram Clone
+  </footer>
+</main>
