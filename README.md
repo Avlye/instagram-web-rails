@@ -1,24 +1,26 @@
-# README
+# instagram-web-rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+My first instagram clone build with Ruby On Rails
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version: 2.7.1
 
-* System dependencies
+* System dependencies: ${BROWSER} & ImageMagick
 
 * Configuration
 
+```zsh
+docker-compose -f "docker-compose.yml" up -d --build
+```
+
 * Database creation
 
-* Database initialization
-
-* How to run the test suite
+```zsh
+rails db:migrate
+```
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
-
-* ...
+- Redis (Cache)
+- PostgreSQL (Database SQL)
