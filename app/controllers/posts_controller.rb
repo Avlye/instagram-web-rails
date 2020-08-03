@@ -1,17 +1,20 @@
 class PostsController < ApplicationController
+  include SuggestedUsers
+
+
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_suggested_users, only: %i[index]
 
   # GET /posts
   # GET /posts.json
   def index
-    flash.now[:notice] = "Senpai me nota"
-    flash.now[:alert] = "PORRRA SENPAI"
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @comment = Comment.new
   end
 
   # GET /posts/new
@@ -26,13 +29,17 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(post_params.merge(created_by: current_user))
 
     respond_to do |format|
       if @post.save
+        PostChannel.broadcast_to "post_channel", post_created: render_to_string(partial: @post)
+
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
+        flash.now[:alert] = @post.errors.full_messages.to_sentence
+
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -71,6 +78,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:description)
+      params.require(:post).permit(:photo, :description)
     end
 end
