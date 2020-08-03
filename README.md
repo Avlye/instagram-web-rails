@@ -2,8 +2,6 @@
 
 My first instagram clone build with Ruby On Rails
 
-Things you may want to cover:
-
 * Ruby version: 2.7.1
 
 * System dependencies: ${BROWSER} & ImageMagick
